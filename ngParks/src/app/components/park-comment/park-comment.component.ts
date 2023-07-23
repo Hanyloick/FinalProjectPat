@@ -15,7 +15,7 @@ export class ParkCommentComponent implements OnInit {
   comment: ParkComment = new ParkComment();
   selectedComment: ParkComment | null = null;
   @Output() reloadPark = new EventEmitter<number>();
-
+  comments: ParkComment[] = [];
 
   constructor(
     private parkCommentService: ParkCommentService
@@ -23,9 +23,24 @@ export class ParkCommentComponent implements OnInit {
 
 
   ngOnInit(): void {
-    // if(this.comments && this.selectedPark) {
+    if(this.selectedPark) {
+      this.loadParkComments(this.selectedPark.id)
     // this.comments = this.selectedPark.parkComments;
-    // }
+    }
+  }
+
+  loadParkComments(parkId:number) {
+    if (this.selectedPark) {
+      this.parkCommentService.indexParkComments(this.selectedPark.id).subscribe({
+        next: (commentList) => {
+          this.comments = commentList;
+        },
+        error: (nothingChanged) => {
+          console.error('ParkCommentComponent.loadParkComments(): error loading ParkComments:');
+          console.error(nothingChanged);
+        },
+      });
+    }
   }
 
   addComment() {
@@ -37,6 +52,9 @@ export class ParkCommentComponent implements OnInit {
             this.selectedPark?.parkComments.push(addedComment);
             this.loggedInUser?.parkComments.push(addedComment);
             this.comment = new ParkComment();
+            if(this.selectedPark) {
+              this.loadParkComments(this.selectedPark.id);
+              }
             this.reloadPark.emit(this.selectedPark?.id);
           },
           error: (nothingChanged) => {
@@ -57,6 +75,9 @@ export class ParkCommentComponent implements OnInit {
             this.loggedInUser?.parkComments.push(addedComment);
             this.selectedComment?.replies.push(addedComment);
             this.comment = new ParkComment();
+            if(this.selectedPark) {
+            this.loadParkComments(this.selectedPark.id);
+            }
             this.reloadPark.emit(this.selectedPark?.id);
           },
           error: (nothingChanged) => {
@@ -75,6 +96,7 @@ export class ParkCommentComponent implements OnInit {
           next: (result) => {
             if(this.selectedPark){
             this.reloadPark.emit(this.selectedPark.id);
+            this.loadParkComments(this.selectedPark.id);
             }
             this.selectedComment=null;
           },

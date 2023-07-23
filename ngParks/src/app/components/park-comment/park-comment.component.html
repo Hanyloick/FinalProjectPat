@@ -1,5 +1,5 @@
 <h5 style="text-align: center">User Comments about the Park</h5>
-<ng-container *ngFor="let comment of selectedPark?.parkComments">
+<ng-container *ngFor="let comment of comments">
   <div *ngIf="comment.user && comment.comment === null && comment.enabled && comment.user.enabled" class="park-comment">
     <blockquote class="row park-comments">
       <div class="col-8">

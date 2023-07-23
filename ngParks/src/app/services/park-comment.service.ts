@@ -26,6 +26,8 @@ export class ParkCommentService {
     return options;
   }
 
+  
+
   addComment(park: Park, comment:ParkComment): Observable<ParkComment> {
     comment.user = null;
     comment.park = null;
@@ -70,6 +72,17 @@ export class ParkCommentService {
 
   }
 
-
+  indexParkComments(parkId: number): Observable<ParkComment[]> {
+    return this.http
+      .get<ParkComment[]>(this.url + '/' + parkId + "/comments")
+      .pipe(
+        catchError((err: any) => {
+          console.error(err);
+          return throwError(
+            () => new Error('ParkCommntService.update(): error adding ParkComment: ' + err)
+          );
+        })
+      );
+  }
 
 }
