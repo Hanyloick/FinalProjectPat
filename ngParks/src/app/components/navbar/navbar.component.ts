@@ -7,15 +7,15 @@ import { UserService } from 'src/app/services/user.service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent {
-loggedInUser:User|null=null;
+  loggedInUser: User | null = null;
 
   constructor(
     private auth: AuthService,
     private parkService: ParkService,
-    private userService:UserService
+    private userService: UserService
   ) {}
 
   checkLoginStatus(): boolean {
@@ -30,10 +30,9 @@ loggedInUser:User|null=null;
     this.parkService.setSelectedAttraction(null);
     this.parkService.setSelectedPark(null);
     this.parkService.setSelectedAttraction(null);
-}
+  }
 
-clearSelectedUser() {
-  this.userService.setSelectedUser(null);
-}
-
+  clearSelectedUser() {
+    this.userService.setSelectedUser(null);
+  }
 }

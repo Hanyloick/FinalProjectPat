@@ -17,12 +17,12 @@ export class AttractionComponent implements OnInit {
   comment: AttractionComment = new AttractionComment();
   selectedComment: AttractionComment | null = null;
   attractions: Attraction[] = [];
-  
+
   constructor(private attractionCommentService: AttractionCommentService) {}
-  
+
   ngOnInit(): void {
-    if(this.selectedPark) {
-    this.loadAllParkAttractions(this.selectedPark.id);
+    if (this.selectedPark) {
+      this.loadAllParkAttractions(this.selectedPark.id);
     }
   }
 
@@ -35,8 +35,8 @@ export class AttractionComponent implements OnInit {
         error: (noJoy) => {
           console.error(
             'AttractionComponent.loadAllParkAttractions(); error loading Attractions'
-            );
-            console.error(noJoy);
+          );
+          console.error(noJoy);
         },
       });
     }

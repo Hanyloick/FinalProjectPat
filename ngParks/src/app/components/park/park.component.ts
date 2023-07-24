@@ -51,7 +51,7 @@ export class ParkComponent {
     'Virgin Islands',
     'Washington',
     'West Virgina',
-    'Wyoming'
+    'Wyoming',
   ];
 
   constructor(
@@ -163,7 +163,6 @@ export class ParkComponent {
     });
   }
 
-
   refreshSelectedPark(parkId: number) {
     this.parkService.show(parkId).subscribe({
       next: (updatedPark) => {
@@ -181,15 +180,14 @@ export class ParkComponent {
 
   hadRatedPark: boolean | undefined = false;
   checkUserParkRatings(park: Park) {
-    this.hadRatedPark= false;
+    this.hadRatedPark = false;
     if (this.loggedInUser && park) {
       for (let userParkRating of this.loggedInUser?.parkRatings) {
-          if (userParkRating.park.id === park.id) {
-            this.hadRatedPark = true;
-            break;
-          }
+        if (userParkRating.park.id === park.id) {
+          this.hadRatedPark = true;
+          break;
         }
       }
     }
   }
-
+}

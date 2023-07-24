@@ -47,8 +47,8 @@ export class AttractionCommentComponent implements OnInit {
         .addComment(this.selectedAttraction, this.comment)
         .subscribe({
           next: (addedComment) => {
-            if(this.selectedAttraction) {
-            this.loadAttractionComments(this.selectedAttraction.id);
+            if (this.selectedAttraction) {
+              this.loadAttractionComments(this.selectedAttraction.id);
             }
             this.comment = new AttractionComment();
           },
@@ -72,13 +72,15 @@ export class AttractionCommentComponent implements OnInit {
         )
         .subscribe({
           next: (addedComment) => {
-            if(this.selectedAttraction) {
+            if (this.selectedAttraction) {
               this.loadAttractionComments(this.selectedAttraction.id);
-              }
+            }
             this.comment = new AttractionComment();
           },
           error: (nothingChanged) => {
-            console.error('AttractionCommentComponent.addReplyComment(): error adding Comment:');
+            console.error(
+              'AttractionCommentComponent.addReplyComment(): error adding Comment:'
+            );
             console.error(nothingChanged);
           },
         });
@@ -91,9 +93,9 @@ export class AttractionCommentComponent implements OnInit {
         .deleteComment(this.selectedAttraction, commentId)
         .subscribe({
           next: (result) => {
-            if(this.selectedAttraction) {
+            if (this.selectedAttraction) {
               this.loadAttractionComments(this.selectedAttraction.id);
-              }
+            }
             this.selectedComment = null;
           },
           error: (nothingChanged) => {

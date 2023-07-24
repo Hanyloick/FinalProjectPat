@@ -11,10 +11,7 @@ import { ParkService } from 'src/app/services/park.service';
 export class HomeComponent implements OnInit {
   parks: any[] = [];
 
-  constructor(
-    private parkService: ParkService,
-    private router: Router
-    ) {}
+  constructor(private parkService: ParkService, private router: Router) {}
 
   ngOnInit(): void {
     this.reloadCarousel();
@@ -24,8 +21,6 @@ export class HomeComponent implements OnInit {
     this.parkService.index().subscribe({
       next: (parkList) => {
         this.parks = this.chunks(parkList, 3);
-        // this.parks = parkList;
-        // console.log(this.parks);
       },
       error: (problem) => {
         console.error('HomeComponent.reloadCarousel(): error loading Parks');
@@ -35,7 +30,7 @@ export class HomeComponent implements OnInit {
   }
 
   displayParkDetails(park: Park) {
-    this.router.navigateByUrl("parks/" + park.id);
+    this.router.navigateByUrl('parks/' + park.id);
   }
 
   chunks(array: Park[], size: number) {
@@ -46,5 +41,4 @@ export class HomeComponent implements OnInit {
     }
     return results;
   }
-
 }

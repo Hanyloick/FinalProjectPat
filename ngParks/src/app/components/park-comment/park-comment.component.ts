@@ -16,28 +16,29 @@ export class ParkCommentComponent implements OnInit {
   selectedComment: ParkComment | null = null;
   comments: ParkComment[] = [];
 
-  constructor(
-    private parkCommentService: ParkCommentService
-    ) {}
-
+  constructor(private parkCommentService: ParkCommentService) {}
 
   ngOnInit(): void {
-    if(this.selectedPark) {
-      this.loadParkComments(this.selectedPark.id)
+    if (this.selectedPark) {
+      this.loadParkComments(this.selectedPark.id);
     }
   }
 
-  loadParkComments(parkId:number) {
+  loadParkComments(parkId: number) {
     if (this.selectedPark) {
-      this.parkCommentService.indexParkComments(this.selectedPark.id).subscribe({
-        next: (commentList) => {
-          this.comments = commentList;
-        },
-        error: (nothingChanged) => {
-          console.error('ParkCommentComponent.loadParkComments(): error loading ParkComments:');
-          console.error(nothingChanged);
-        },
-      });
+      this.parkCommentService
+        .indexParkComments(this.selectedPark.id)
+        .subscribe({
+          next: (commentList) => {
+            this.comments = commentList;
+          },
+          error: (nothingChanged) => {
+            console.error(
+              'ParkCommentComponent.loadParkComments(): error loading ParkComments:'
+            );
+            console.error(nothingChanged);
+          },
+        });
     }
   }
 
@@ -48,9 +49,9 @@ export class ParkCommentComponent implements OnInit {
         .subscribe({
           next: (addedComment) => {
             this.comment = new ParkComment();
-            if(this.selectedPark) {
+            if (this.selectedPark) {
               this.loadParkComments(this.selectedPark.id);
-              }
+            }
           },
           error: (nothingChanged) => {
             console.error('ParkComponent.updatePark(): error updating Park:');
@@ -67,37 +68,38 @@ export class ParkCommentComponent implements OnInit {
         .subscribe({
           next: (addedComment) => {
             this.comment = new ParkComment();
-            if(this.selectedPark) {
-            this.loadParkComments(this.selectedPark.id);
+            if (this.selectedPark) {
+              this.loadParkComments(this.selectedPark.id);
             }
           },
           error: (nothingChanged) => {
-            console.error('ParkCommentComponent.addReplyComment(): error adding replyParkcomment:');
+            console.error(
+              'ParkCommentComponent.addReplyComment(): error adding replyParkcomment:'
+            );
             console.error(nothingChanged);
           },
         });
     }
   }
 
-  deleteComment(commentId:number) {
+  deleteComment(commentId: number) {
     if (this.selectedPark) {
       this.parkCommentService
         .deleteComment(this.selectedPark.id, commentId)
         .subscribe({
           next: (result) => {
-            if(this.selectedPark){
-            this.loadParkComments(this.selectedPark.id);
+            if (this.selectedPark) {
+              this.loadParkComments(this.selectedPark.id);
             }
-            this.selectedComment=null;
+            this.selectedComment = null;
           },
           error: (nothingChanged) => {
-            console.error('ParkCommentComponent.deleteComment(): error removing ParkComment:');
+            console.error(
+              'ParkCommentComponent.deleteComment(): error removing ParkComment:'
+            );
             console.error(nothingChanged);
           },
         });
     }
   }
-
-
-
 }

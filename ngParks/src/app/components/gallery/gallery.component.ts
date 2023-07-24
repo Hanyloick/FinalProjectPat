@@ -11,7 +11,6 @@ import { AuthService } from 'src/app/services/auth.service';
 import { StateService } from 'src/app/services/state.service';
 import { UserService } from 'src/app/services/user.service';
 
-
 @Component({
   selector: 'app-gallery',
   templateUrl: './gallery.component.html',
@@ -169,9 +168,7 @@ export class GalleryComponent implements OnInit {
   }
 
   onStateChange(event: any) {
-    // console.log(event);
     this.selectedOption = event.target.value;
-    // console.log(event.target.value);
     this.getParkPhotos(this.selectedOption);
   }
 }

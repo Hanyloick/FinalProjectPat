@@ -12,17 +12,17 @@ import { UserService } from 'src/app/services/user.service';
 export class UserComponent {
   users: User[] = [];
 
-  loggedInUser: User | null= null;
+  loggedInUser: User | null = null;
   editUser: User | null = null;
   selectedUser: User | null = null;
 
   constructor(
     private userService: UserService,
-    private authService:AuthService,
+    private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router
   ) {
-    this.userService.getSelectedUser().subscribe(selectedUser => {
+    this.userService.getSelectedUser().subscribe((selectedUser) => {
       this.selectedUser = selectedUser;
     });
   }
@@ -30,9 +30,7 @@ export class UserComponent {
   ngOnInit() {
     let idString = this.route.snapshot.paramMap.get('id');
     if (!this.selectedUser && idString) {
-      // console.log(idString);
       let userId: number = Number.parseInt(idString);
-      // console.log(userId);
       if (isNaN(userId)) {
         this.router.navigateByUrl('loser');
       } else {
@@ -49,7 +47,7 @@ export class UserComponent {
         return (this.loggedInUser = user);
       },
       error: (problem) => {
-        console.error('UserComponent.reload(): error loading Users');
+        console.error('UserComponent.checkUser(): error loading Users');
         console.error(problem);
       },
     });
@@ -59,7 +57,7 @@ export class UserComponent {
     return null;
   }
 
-  logoutUser(){
+  logoutUser() {
     this.loggedInUser = null;
   }
 
@@ -77,8 +75,6 @@ export class UserComponent {
 
   displayUserDetails(user: User) {
     this.selectedUser = user;
-    // console.log(this.selectedUser.username)
-    // console.log(this.loggedInUser?.username);
     return this.selectedUser;
   }
 
@@ -120,25 +116,26 @@ export class UserComponent {
     });
   }
 
-disableUser(user: User){
-  this.userService.toggle(user)
-  .subscribe({
-    next: (result) => {
-      this.reload();
-    },
-    error: (nothingChanged) => {
-      console.error('ParkCommentComponent.deleteComment(): error removing ParkComment:');
-      console.error(nothingChanged);
-    },
-  });
-}
+  disableUser(user: User) {
+    this.userService.toggle(user).subscribe({
+      next: (result) => {
+        this.reload();
+      },
+      error: (nothingChanged) => {
+        console.error(
+          'UserComponent.disableUser(): error disabling User:'
+        );
+        console.error(nothingChanged);
+      },
+    });
+  }
 
-enableUser(user: User){
-  user.enabled = true;
-  this.updateUser(user, false);
-}
+  enableUser(user: User) {
+    user.enabled = true;
+    this.updateUser(user, false);
+  }
 
-  handleRemovalSuccess(loggedInUser:User) {
+  handleRemovalSuccess(loggedInUser: User) {
     this.loggedInUser = loggedInUser;
     this.selectedUser = this.loggedInUser;
     this.reload();
