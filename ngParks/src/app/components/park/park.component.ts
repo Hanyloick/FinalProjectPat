@@ -15,11 +15,9 @@ import { ParkService } from 'src/app/services/park.service';
 export class ParkComponent {
   loggedInUser: User | null = null;
   parks: Park[] = [];
-
   newPark: Park = new Park();
   editPark: Park | null = null;
   @Input() selectedPark: Park | null = null;
-  selectedAttraction: Attraction | null = null;
   selectedState: string = 'All';
   states = [
     'All',
@@ -66,9 +64,6 @@ export class ParkComponent {
     this.parkService.getSelectedPark().subscribe((selectedPark) => {
       this.selectedPark = selectedPark;
     });
-    this.parkService.getSelectedAttraction().subscribe((selelectedAttraction) => {
-      this.selectedAttraction = selelectedAttraction;
-    })
   }
 
   checkUser(): User | null {
@@ -93,9 +88,7 @@ export class ParkComponent {
     this.route.paramMap.subscribe((params) => {
       let idString = params.get('id');
       if (!this.selectedPark && idString) {
-        // console.log(idString);
         let parkId: number = Number.parseInt(idString);
-        // console.log(parkId);
         if (isNaN(parkId)) {
           this.router.navigateByUrl('loser');
         } else {
@@ -124,18 +117,6 @@ export class ParkComponent {
 
   displayParkTable() {
     return (this.selectedPark = null);
-  }
-
-  selectAttraction(attractionId: number) {
-    this.attractionCommentService.show(attractionId).subscribe({
-      next: (attraction) => {
-        this.selectedAttraction = attraction;
-      },
-      error: (nothingChanged) => {
-        console.error('ParkComponent.updatePark(): error updating Park:');
-        console.error(nothingChanged);
-      },
-    });
   }
 
   showPark(parkId: number) {
@@ -182,9 +163,6 @@ export class ParkComponent {
     });
   }
 
-  handleDeselectAttraction(selectedAttraction: null) {
-    this.selectedAttraction = selectedAttraction;
-  }
 
   refreshSelectedPark(parkId: number) {
     this.parkService.show(parkId).subscribe({
@@ -204,14 +182,10 @@ export class ParkComponent {
   hadRatedPark: boolean | undefined = false;
   checkUserParkRatings(park: Park) {
     this.hadRatedPark= false;
-    // console.log('beginning of rating check ' + this.hadRatedPark);
-    // console.log(this.loggedInUser);
     if (this.loggedInUser && park) {
       for (let userParkRating of this.loggedInUser?.parkRatings) {
-        // console.log('middle of rating check ' + userParkRating.park.id);
           if (userParkRating.park.id === park.id) {
             this.hadRatedPark = true;
-            // console.log('end of rating check ' + this.hadRatedPark);
             break;
           }
         }

@@ -14,7 +14,6 @@ export class ParkCommentComponent implements OnInit {
   @Input() selectedPark: Park | null = null;
   comment: ParkComment = new ParkComment();
   selectedComment: ParkComment | null = null;
-  @Output() reloadPark = new EventEmitter<number>();
   comments: ParkComment[] = [];
 
   constructor(
@@ -25,7 +24,6 @@ export class ParkCommentComponent implements OnInit {
   ngOnInit(): void {
     if(this.selectedPark) {
       this.loadParkComments(this.selectedPark.id)
-    // this.comments = this.selectedPark.parkComments;
     }
   }
 
@@ -49,13 +47,10 @@ export class ParkCommentComponent implements OnInit {
         .addComment(this.selectedPark, this.comment)
         .subscribe({
           next: (addedComment) => {
-            this.selectedPark?.parkComments.push(addedComment);
-            this.loggedInUser?.parkComments.push(addedComment);
             this.comment = new ParkComment();
             if(this.selectedPark) {
               this.loadParkComments(this.selectedPark.id);
               }
-            this.reloadPark.emit(this.selectedPark?.id);
           },
           error: (nothingChanged) => {
             console.error('ParkComponent.updatePark(): error updating Park:');
@@ -71,14 +66,10 @@ export class ParkCommentComponent implements OnInit {
         .addReply(this.selectedPark, this.selectedComment.id, this.comment)
         .subscribe({
           next: (addedComment) => {
-            this.selectedPark?.parkComments.push(addedComment);
-            this.loggedInUser?.parkComments.push(addedComment);
-            this.selectedComment?.replies.push(addedComment);
             this.comment = new ParkComment();
             if(this.selectedPark) {
             this.loadParkComments(this.selectedPark.id);
             }
-            this.reloadPark.emit(this.selectedPark?.id);
           },
           error: (nothingChanged) => {
             console.error('ParkCommentComponent.addReplyComment(): error adding replyParkcomment:');
@@ -95,7 +86,6 @@ export class ParkCommentComponent implements OnInit {
         .subscribe({
           next: (result) => {
             if(this.selectedPark){
-            this.reloadPark.emit(this.selectedPark.id);
             this.loadParkComments(this.selectedPark.id);
             }
             this.selectedComment=null;

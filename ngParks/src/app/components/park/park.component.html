@@ -39,11 +39,13 @@
     <div class="col-5">
       <h5>Established in {{ selectedPark.dateEstablished }}</h5>
       <blockquote>{{ selectedPark.description }}</blockquote>
-      <h4>Located in the Following State(s) : </h4>
+      <h4>Located in the Following State(s) :</h4>
       <div *ngFor="let state of selectedPark.states">
-        <h5>{{state.name}}</h5>
-        </div>
-      <h4>Average Park Rating : {{ selectedPark.parkRatings | averageParkRating }}</h4>
+        <h5>{{ state.name }}</h5>
+      </div>
+      <h4>
+        Average Park Rating : {{ selectedPark.parkRatings | averageParkRating }}
+      </h4>
     </div>
     <div class="col-7">
       <img
@@ -97,7 +99,6 @@
       <app-park-comment
         [loggedInUser]="loggedInUser"
         [selectedPark]="selectedPark"
-        (reloadPark)="refreshSelectedPark($event)"
       >
       </app-park-comment>
     </div>
@@ -105,40 +106,14 @@
 
   <hr />
 
-  <div *ngIf="!selectedAttraction" class="container attraction-container">
-    <div
-      class="attractions"
-      *ngFor="let attraction of selectedPark.attractions"
-    >
-      <div class="attraction-card-header">
-        <span>{{ attraction.name }}</span>
-      </div>
-      <img
-        (click)="selectAttraction(attraction.id)"
-        id="attraction-img"
-        src="{{ attraction.image }}"
-      />
-    </div>
-  </div>
-  <div *ngIf="selectAttraction">
-    <app-attraction
-      [selectedAttraction]="selectedAttraction"
-      (deselectAtraction)="handleDeselectAttraction($event)"
-      [selectedPark]="selectedPark"
-      [loggedInUser]="loggedInUser"
-      (reloadPark)="refreshSelectedPark($event)"
-    >
-    </app-attraction>
-  </div>
+  <app-attraction 
+  [selectedPark]="selectedPark" 
+  [loggedInUser]="loggedInUser">
+  </app-attraction>
 
   <hr />
 
   <div class="row">
-    <!-- <div class="col" *ngIf="loggedInUser?.role === 'ADMIN'">
-      <button class="btn btn-success" id="editButton" (click)="setEditPark()">
-        Edit Park Information
-      </button>
-    </div> -->
     <div class="col" *ngIf="loggedInUser">
       <app-add-to-favorites
         [selectedPark]="selectedPark"
@@ -157,22 +132,3 @@
     </div>
   </div>
 </div>
-
-<!-- <div *ngIf="editPark" id="parkEditDiv" class="container">
-  <label for="task">Task : </label>
-  <input type="text" name="task" [(ngModel)]="editPark.task" /><br />
-  <label for="description">Description : </label>
-  <input
-    type="text"
-    name="description"
-    [(ngModel)]="editPark.description"
-  /><br />
-  <label for="completed">Completed : </label>
-  <input
-    type="checkbox"
-    name="completed"
-    [(ngModel)]="editPark.completed"
-  /><br />
-  <button class="btn btn-danger" (click)="editPark = null">Cancel</button>
-  <button class="btn btn-success" (click)="updatePark(editPark)">Save</button>
-</div> -->

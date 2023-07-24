@@ -40,7 +40,7 @@ public class Attraction {
 	private String website;
 	private Boolean enabled;
 	
-	@JsonIgnoreProperties({"attractions"})
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "park_id")
 	private Park park;
@@ -48,7 +48,8 @@ public class Attraction {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
-	@JsonIgnoreProperties({"attractions"})
+//	@JsonIgnoreProperties({"attractions"})
+	@JsonIgnore
 	@OneToMany(mappedBy = "attraction")
 	private List<AttractionComment> attractionComments;
 	@JsonIgnore

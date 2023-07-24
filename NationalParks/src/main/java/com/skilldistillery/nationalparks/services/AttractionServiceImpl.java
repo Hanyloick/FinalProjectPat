@@ -1,11 +1,12 @@
 package com.skilldistillery.nationalparks.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.skilldistillery.nationalparks.entities.Attraction;
 import com.skilldistillery.nationalparks.entities.AttractionComment;
-import com.skilldistillery.nationalparks.entities.ParkComment;
 import com.skilldistillery.nationalparks.entities.User;
 import com.skilldistillery.nationalparks.repositories.AttractionCommentRepository;
 import com.skilldistillery.nationalparks.repositories.AttractionRepository;
@@ -25,6 +26,12 @@ public class AttractionServiceImpl implements AttractionService {
 	public Attraction show(int id) {
 		Attraction managedAttraction = attractionRepo.findById(id);
 		return managedAttraction;
+	}
+	
+	@Override
+	public List<Attraction> showByPark(int parkId) {
+		List<Attraction> managedAttractions = attractionRepo.findByPark_Id(parkId);
+		return managedAttractions;
 	}
 	
 	@Override

@@ -1,5 +1,7 @@
 package com.skilldistillery.nationalparks.services;
 
+import java.util.List;
+
 import com.skilldistillery.nationalparks.entities.Attraction;
 import com.skilldistillery.nationalparks.entities.AttractionComment;
 
@@ -15,6 +17,8 @@ public interface AttractionService {
 			AttractionComment attrComReply);
 
 	boolean deleteComment(int attrCommentId);
+
+	List<Attraction> showByPark(int parkId);
 	
 	
 	

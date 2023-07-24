@@ -26,8 +26,27 @@ export class AttractionCommentService {
     return options;
   }
 
-
-
+  showByPark(parkId:number):Observable<Attraction[]> {
+    return this.http.get<Attraction[]>(this.url + "/" + parkId + "/parks").pipe(
+      catchError((err:any) => {
+        console.error(err);
+        return throwError(
+          () => new Error('AttractionCommentService.showByPark(); error showing Attractions')
+        );
+      })
+    );
+  }
+  showCommentByAttraction(attrId:number):Observable<AttractionComment[]> {
+    return this.http.get<AttractionComment[]>(this.url + "/" + attrId + "/comments").pipe(
+      catchError((err:any) => {
+        console.error(err);
+        return throwError(
+          () => new Error('AttractionCommentService.showByPark(); error showing Attractions')
+        );
+      })
+    );
+  }
+  
   show(attractionId:number):Observable<Attraction> {
     return this.http
       .get<Attraction>(this.url + '/' + attractionId)
